@@ -40,7 +40,6 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/v1/", jwt);
-
 //To allow cross-origin requests
 app.use(cors());
 //app.use(bodyParser.urlencoded({ urlencoded: false }));
