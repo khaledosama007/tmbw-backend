@@ -15,6 +15,7 @@ router.post(
 router.post("/add-ad-from-mypet", AdController.addAdWithMyPet);
 router.delete("/:id", AdController.deleteAd);
 router.get("/search", AdController.search);
+router.get("/getLatestAds" , AdController.getLatestAds)
 /* router.delete("/delete-pet/:id", PetController.deletePet);
 router.get("/:id" , PetController.getById);
 router.get("/get-user-pets/:userid",PetController.getUserPets); */

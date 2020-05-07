@@ -12,7 +12,7 @@ AWS.config.setPromisesDependency(require("bluebird"));
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_KEY,
-  region: "eu-central-1"
+  region: "eu-central-1",
 });
 
 exports.addAd = [
@@ -32,7 +32,7 @@ exports.addAd = [
   body("purpose").isString(),
   check("userid")
     .isLength({ min: 1 })
-    .custom(val => {
+    .custom((val) => {
       return UserModel.findById(new ObjectID(val), (err, user) => {
         if (!err) return Promise.reject("user not found");
       });
@@ -49,22 +49,22 @@ exports.addAd = [
       }
       let imagesArr = [];
       UserModel.findById(req.body.userid).then(
-        user => {
+        (user) => {
           console.log(user);
           if (req.files) {
             let promises = [];
-            req.files.forEach(file => {
+            req.files.forEach((file) => {
               let s3options = {
                 ACL: "public-read",
                 Bucket: process.env.USER_PETS_IMAGES_BUCKET,
                 Body: fs.createReadStream(file.path),
-                Key: `${user._id}/${req.body.name}/${file.originalname}`
+                Key: `${user._id}/${req.body.name}/${file.originalname}`,
               };
               let uploadPromise = s3.upload(s3options).promise();
               promises.push(uploadPromise);
             });
             Promise.all(promises).then(
-              arr => {
+              (arr) => {
                 arr.forEach((data, index) => {
                   imagesArr.push(data.Location);
                 });
@@ -78,11 +78,11 @@ exports.addAd = [
                   address: req.body.address,
                   pics: imagesArr,
                   owner: req.body.userid,
-                  belongToAd: true
+                  belongToAd: true,
                 });
                 //newPet.pics.push(...imagesArr);
 
-                newPet.save(function(err, pet) {
+                newPet.save(function (err, pet) {
                   if (err) return apiResponse.ErrorResponse(res, err);
                   let newAd = new AdModel({
                     petId: pet._id,
@@ -91,9 +91,9 @@ exports.addAd = [
                     phoneNumber: req.body.phoneNumber,
                     purpose: req.body.purpose,
                     verified: false,
-                    userId: req.body.userid
+                    userId: req.body.userid,
                   });
-                  newAd.save(function(err, ad) {
+                  newAd.save(function (err, ad) {
                     if (err) {
                       console.log("errorInNewAdSaeve " + err);
                       return apiResponse.ErrorResponse(res, err);
@@ -101,7 +101,7 @@ exports.addAd = [
                   });
                 });
               },
-              err => {
+              (err) => {
                 console.log("errorInPromiseAll" + err);
                 return apiResponse.ErrorResponse(
                   res,
@@ -112,14 +112,14 @@ exports.addAd = [
             // });
           }
         },
-        err => {
+        (err) => {
           console.log(err);
         }
       );
     } catch (err) {
       console.log(err);
     }
-  }
+  },
 ];
 
 exports.addAdWithMyPet = [
@@ -130,17 +130,17 @@ exports.addAdWithMyPet = [
   body("purpose").isString(),
   check("userid")
     .isLength({ min: 1 })
-    .custom(val => {
+    .custom((val) => {
       return UserModel.findById(new ObjectID(val), (err, user) => {
         if (!user) return Promise.reject("user not found");
-      }).catch(err => {});
+      }).catch((err) => {});
     }),
   body("petid")
     .isLength({ min: 1 })
-    .custom(petid => {
+    .custom((petid) => {
       return PetModel.findById(new ObjectID(petid), (err, pet) => {
         if (!pet) return Promise.reject("Pet id not found");
-      }).catch(err => {});
+      }).catch((err) => {});
     }),
   (req, res) => {
     console.log(req.body);
@@ -168,7 +168,7 @@ exports.addAdWithMyPet = [
       phoneNumber: req.body.phoneNumber,
       purpose: req.body.purpose,
       verified: false,
-      userId: req.body.userid
+      userId: req.body.userid,
     });
     newAd.save((err, ad) => {
       if (err)
@@ -179,7 +179,7 @@ exports.addAdWithMyPet = [
         ad
       );
     });
-  }
+  },
 ];
 
 exports.deleteAd = [
@@ -189,28 +189,28 @@ exports.deleteAd = [
       return apiResponse.ErrorResponse(res, "Ad id is not valid");
     }
     AdModel.findById(new ObjectID(req.params.id)).then(
-      ad => {
+      (ad) => {
         if (ad) {
           PetModel.findById(ad.petId).then(
-            pet => {
+            (pet) => {
               if (pet && pet.belongToAd) {
                 PetModel.deleteOne({ _id: pet._id }).then();
               }
             },
-            err => {}
+            (err) => {}
           );
-          AdModel.deleteOne({ _id: req.params.id }).then(val => {
+          AdModel.deleteOne({ _id: req.params.id }).then((val) => {
             return apiResponse.successResponse(res, "Ad deleted Successfully");
           });
         } else {
           return apiResponse.ErrorResponse(res, "can't find ad with this Id");
         }
       },
-      err => {
+      (err) => {
         return apiResponse.ErrorResponse(res, "can't find ad with this Id");
       }
     );
-  }
+  },
 ];
 
 exports.search = [
@@ -225,7 +225,7 @@ exports.search = [
     let filter = filterQueryParams(req.query);
     AdModel.find({
       $and: [
-        ...filter
+        ...filter,
         /* {
           address: { $regex: ".*" + req.query.address }
         },
@@ -237,19 +237,35 @@ exports.search = [
           }
         } */
         //filterQueryParams(req.query)
-      ]
+      ],
     }).then(
-      ad => {
+      (ad) => {
         if (!ad.isEmpty)
           return apiResponse.successResponseWithData(res, "Ad Found!", ad);
       },
-      err => {
+      (err) => {
         return apiResponse.ErrorResponse(res, err);
       }
     );
-  }
+  },
 ];
-
+exports.getLatestAds = [
+  check("page").isNumeric(),
+  async (req, res) => {
+    let params = req.query;
+    let filter = filterQueryParams(req.query);
+    let query = AdModel.find({ });
+    paginate(query, req.params).then(
+      (ad) => {
+        if (!ad.isEmpty)
+          return apiResponse.successResponseWithData(res, "Ad Found!", ad);
+      },
+      (err) => {
+        return apiResponse.ErrorResponse(res, err);
+      }
+    );
+  },
+];
 function filterQueryParams(params) {
   let filter = [],
     price = {};
@@ -265,6 +281,12 @@ function filterQueryParams(params) {
   if (params.priceMax) {
     price.$lte = params.priceMax;
   }
-  filter.push({ price });
+  if (Object.keys(price).length !== 0) filter.push({ price });
   return filter;
+}
+function paginate(query, params) {
+  const page = params.page * 1 || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
+  return query.skip(skip).limit(limit);
 }
