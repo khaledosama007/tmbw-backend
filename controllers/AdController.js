@@ -252,20 +252,22 @@ exports.search = [
 exports.getLatestAds = [
   check("page").isNumeric(),
   async (req, res) => {
-    let params = req.query;
-    let filter = filterQueryParams(req.query);
-    let query = AdModel.find({ });
-    paginate(query, req.params).then(
-      (ad) => {
-        if (!ad.isEmpty)
-          return apiResponse.successResponseWithData(res, "Ad Found!", ad);
-      },
-      (err) => {
-        return apiResponse.ErrorResponse(res, err);
-      }
-    );
+    let result = [];
+    let query = AdModel.find({});
+    let ads = await paginate(query, req.params).populate("petId").exec();
+    if (ads && !ads.isEmpty) {
+      ads.forEach(async (adValue, index) => {
+        // let pet = await PetModel.findOne({ _id: new ObjectID(adValue.petId) });
+        // adValue.pet = pet;
+        // result.push(adValue);
+        // if (index == ads.length - 1)
+        return apiResponse.successResponseWithData(res, "Ad Found!", ads);
+      });
+    }
   },
 ];
+
+function getPetsForEachAdd(result) {}
 function filterQueryParams(params) {
   let filter = [],
     price = {};
