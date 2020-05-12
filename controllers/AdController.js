@@ -254,15 +254,12 @@ exports.getLatestAds = [
   async (req, res) => {
     let result = [];
     let query = AdModel.find({});
-    let ads = await paginate(query, req.params).populate("petId").exec();
+    let ads = await paginate(query, req.params)
+      .populate("petId")
+      .populate("userId")
+      .exec();
     if (ads && !ads.isEmpty) {
-      ads.forEach(async (adValue, index) => {
-        // let pet = await PetModel.findOne({ _id: new ObjectID(adValue.petId) });
-        // adValue.pet = pet;
-        // result.push(adValue);
-        // if (index == ads.length - 1)
-        return apiResponse.successResponseWithData(res, "Ad Found!", ads);
-      });
+      return apiResponse.successResponseWithData(res, "Ad Found!", ads);
     }
   },
 ];
