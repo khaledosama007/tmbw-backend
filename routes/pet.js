@@ -13,6 +13,6 @@ router.post(
   PetController.addPet
 );
 router.delete("/delete-pet/:id", PetController.deletePet);
-router.get("/:id" , PetController.getById);
-router.get("/get-user-pets/:userid",PetController.getUserPets);
+router.get("/:id", PetController.getById);
+router.get("/get-user-pets/:userid", PetController.getUserPets);
 module.exports = router;
