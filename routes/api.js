@@ -9,5 +9,5 @@ app.use("/auth/", authRouter);
 app.use("/user/", userRouter);
 app.use("/pet/", petRouter);
 app.use("/ad/", adRouter);
-app.get("/impoer-data" ,importData.importData )
+app.get("/impoer-data", importData.importData);
 module.exports = app;
