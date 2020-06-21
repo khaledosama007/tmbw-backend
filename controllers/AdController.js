@@ -1,6 +1,7 @@
 const PetModel = require("../models/PetModel");
 const UserModel = require("../models/UserModel");
 const AdModel = require("../models/AdModel");
+const ApiFeatures = require("../helpers/apiFeatures");
 const apiResponse = require("../helpers/apiResponse");
 const auth = require("../middlewares/jwt");
 const fs = require("fs");
@@ -37,7 +38,7 @@ exports.addAd = [
         if (!err) return Promise.reject("user not found");
       });
     }),
-  (req, res) => {
+  async (req, res) => {
     try {
       let errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -48,74 +49,61 @@ exports.addAd = [
         );
       }
       let imagesArr = [];
-      UserModel.findById(req.body.userid).then(
-        (user) => {
-          console.log(user);
-          if (req.files) {
-            let promises = [];
-            req.files.forEach((file) => {
-              let s3options = {
-                ACL: "public-read",
-                Bucket: process.env.USER_PETS_IMAGES_BUCKET,
-                Body: fs.createReadStream(file.path),
-                Key: `${user._id}/${req.body.name}/${file.originalname}`,
-              };
-              let uploadPromise = s3.upload(s3options).promise();
-              promises.push(uploadPromise);
+      let user = await UserModel.findById(req.body.userid).exec();
+      if (user) {
+        console.log(user);
+        if (req.files) {
+          let promises = [];
+          req.files.forEach((file) => {
+            let s3options = {
+              ACL: "public-read",
+              Bucket: process.env.USER_PETS_IMAGES_BUCKET,
+              Body: fs.createReadStream(file.path),
+              Key: `${user._id}/${req.body.name}/${file.originalname}`,
+            };
+            let uploadPromise = s3.upload(s3options).promise();
+            promises.push(uploadPromise);
+          });
+          let arr = await Promise.all(promises);
+          if (arr) {
+            arr.forEach((data, index) => {
+              imagesArr.push(data.Location);
             });
-            Promise.all(promises).then(
-              (arr) => {
-                arr.forEach((data, index) => {
-                  imagesArr.push(data.Location);
-                });
-                let newPet = new PetModel({
-                  name: req.body.name,
-                  age: req.body.age,
-                  gender: req.body.gender,
-                  category: req.body.category,
-                  subcategory: req.body.subcategory,
-                  price: req.body.price,
-                  address: req.body.address,
-                  pics: imagesArr,
-                  owner: req.body.userid,
-                  belongToAd: true,
-                });
-                //newPet.pics.push(...imagesArr);
-
-                newPet.save(function (err, pet) {
-                  if (err) return apiResponse.ErrorResponse(res, err);
-                  let newAd = new AdModel({
-                    petId: pet._id,
-                    price: pet.price,
-                    address: pet.address,
-                    phoneNumber: req.body.phoneNumber,
-                    purpose: req.body.purpose,
-                    verified: false,
-                    userId: req.body.userid,
-                  });
-                  newAd.save(function (err, ad) {
-                    if (err) {
-                      console.log("errorInNewAdSaeve " + err);
-                      return apiResponse.ErrorResponse(res, err);
-                    } else return apiResponse.successResponseWithData(res, "Ad Added Successfully", ad);
-                  });
-                });
-              },
-              (err) => {
-                console.log("errorInPromiseAll" + err);
-                return apiResponse.ErrorResponse(
-                  res,
-                  "Failed to upload Image , try again"
-                );
-              }
-            );
-            // });
+            let newPet = new PetModel({
+              name: req.body.name,
+              age: req.body.age,
+              gender: req.body.gender,
+              category: req.body.category,
+              subcategory: req.body.subcategory,
+              price: req.body.price,
+              address: req.body.address,
+              pics: imagesArr,
+              owner: req.body.userid,
+              belongToAd: true,
+            });
+            newPet.save(function (err, pet) {
+              if (err) return apiResponse.ErrorResponse(res, err);
+              let newAd = new AdModel({
+                petId: pet._id,
+                price: pet.price,
+                address: pet.address,
+                phoneNumber: req.body.phoneNumber,
+                purpose: req.body.purpose,
+                verified: false,
+                userId: req.body.userid,
+              });
+              newAd.save(function (err, ad) {
+                if (err) {
+                  console.log("errorInNewAdSaeve " + err);
+                  return apiResponse.ErrorResponse(res, err);
+                } else return apiResponse.successResponseWithData(res, "Ad Added Successfully", ad);
+              });
+            });
           }
-        },
-        (err) => {
-          console.log(err);
+
+          // });
         }
-      );
+      }
     } catch (err) {
       console.log(err);
     }
@@ -124,23 +112,21 @@ exports.addAd = [
 
 exports.addAdWithMyPet = [
   auth,
-  body("price").isNumeric(),
+  body("price", "Price should be provided").isNumeric(),
   body("address").isString(),
   body("phoneNumber").isMobilePhone("ar-EG"),
   body("purpose").isString(),
   check("userid")
     .isLength({ min: 1 })
-    .custom((val) => {
-      return UserModel.findById(new ObjectID(val), (err, user) => {
-        if (!user) return Promise.reject("user not found");
-      }).catch((err) => {});
+    .custom(async (val) => {
+      let user = await UserModel.findById(new ObjectID(val)).exec();
+      if (!user) return Promise.reject("user not found");
     }),
   body("petid")
     .isLength({ min: 1 })
-    .custom((petid) => {
-      return PetModel.findById(new ObjectID(petid), (err, pet) => {
-        if (!pet) return Promise.reject("Pet id not found");
-      }).catch((err) => {});
+    .custom(async (petid) => {
+      let pet = await PetModel.findById(new ObjectID(petid)).exec();
+      if (!pet) return Promise.reject("Pet id not found");
     }),
   (req, res) => {
     console.log(req.body);
@@ -184,12 +170,13 @@ exports.addAdWithMyPet = [
 
 exports.deleteAd = [
   auth,
-  (req, res) => {
+  async (req, res) => {
     if (!ObjectID.isValid(req.params.id)) {
       return apiResponse.ErrorResponse(res, "Ad id is not valid");
     }
-    AdModel.findById(new ObjectID(req.params.id)).then(
-      (ad) => {
+    try {
+      let ad = await AdModel.findById(new ObjectID(req.params.id)).exec();
+      if (ad) {
         if (ad) {
           PetModel.findById(ad.petId).then(
             (pet) => {
@@ -205,61 +192,75 @@ exports.deleteAd = [
         } else {
           return apiResponse.ErrorResponse(res, "can't find ad with this Id");
         }
-      },
-      (err) => {
-        return apiResponse.ErrorResponse(res, "can't find ad with this Id");
       }
-    );
+    } catch (e) {
+      return apiResponse.ErrorResponse(res, "can't find ad with this Id");
+    }
   },
 ];
 
 exports.search = [
-  check("address").isString(),
-  check("priceMin").isNumeric(),
-  check("purpose").isString(),
-  check("priceMax").isString(),
   auth,
   async (req, res) => {
-    let params = req.query;
-    console.log(filterQueryParams(req.query));
-    let filter = filterQueryParams(req.query);
-    AdModel.find({
-      $and: [
-        ...filter,
-        /* {
-          address: { $regex: ".*" + req.query.address }
-        },
-        { purpose: req.query.purpose },
-        {
-          price: {
-            $lte: req.query.priceMax,
-            $gte: req.query.priceMin
-          }
-        } */
-        //filterQueryParams(req.query)
-      ],
-    }).then(
-      (ad) => {
-        if (!ad.isEmpty)
-          return apiResponse.successResponseWithData(res, "Ad Found!", ad);
-      },
-      (err) => {
-        return apiResponse.ErrorResponse(res, err);
+    try {
+      let result = [];
+      let query = AdModel.find({});
+      let ads = await new ApiFeatures(query, req.query)
+        .sort()
+        .filter()
+        .paginate()
+        .query.exec();
+      if (ads && !ads.isEmpty) {
+        return apiResponse.successResponseWithData(res, "Ad Found!", ads);
       }
-    );
+    } catch (e) {
+      return apiResponse.ErrorResponse(res, "failed to get ads");
+    }
+    // let params = req.query;
+    // console.log(filterQueryParams(req.query));
+    // let filter = filterQueryParams(req.query);
+    // AdModel.find({
+    //   $and: [
+    //     ...filter,
+    //     /* {
+    //       address: { $regex: ".*" + req.query.address }
+    //     },
+    //     { purpose: req.query.purpose },
+    //     {
+    //       price: {
+    //         $lte: req.query.priceMax,
+    //         $gte: req.query.priceMin
+    //       }
+    //     } */
+    //     //filterQueryParams(req.query)
+    //   ],
+    // }).then(
+    //   (ad) => {
+    //     if (!ad.isEmpty)
+    //       return apiResponse.successResponseWithData(res, "Ad Found!", ad);
+    //   },
+    //   (err) => {
+    //     return apiResponse.ErrorResponse(res, err);
+    //   }
+    // );
   },
 ];
 exports.getLatestAds = [
   check("page").isNumeric(),
   async (req, res) => {
-    let result = [];
-    let query = AdModel.find({});
-    let ads = await paginate(query, req.params)
-      .populate("petId")
-      .populate("userId")
-      .exec();
-    if (ads && !ads.isEmpty) {
-      return apiResponse.successResponseWithData(res, "Ad Found!", ads);
+    try {
+      let result = [];
+      let query = AdModel.find({});
+      let ads = await new ApiFeatures(query, req.query)
+        .sort()
+        .filter()
+        .paginate()
+        .query.exec();
+      if (ads && !ads.isEmpty) {
+        return apiResponse.successResponseWithData(res, "Ad Found!", ads);
+      }
+    } catch (e) {
+      return apiResponse.ErrorResponse(res, "failed to get ads");
     }
   },
 ];

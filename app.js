@@ -22,7 +22,7 @@ mongoose
       console.log("Press CTRL + C to stop the process. \n");
     }
   })
-  .catch(err => {
+  .catch((err) => {
     console.error("App starting error:", err.message);
     process.exit(1);
   });
@@ -48,7 +48,7 @@ app.use("/", indexRouter);
 app.use("/api/v1/", apiRouter);
 
 // throw 404 if URL not found
-app.all("*", function(req, res) {
+app.all("*", function (req, res) {
   return apiResponse.notFoundResponse(res, "Page not found");
 });
 
