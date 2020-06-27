@@ -209,8 +209,16 @@ exports.search = [
         .sort()
         .filter()
         .paginate()
-        .query.exec();
+        .query.populate("petId")
+        .exec();
       if (ads && !ads.isEmpty) {
+        ads.map((ad) => {
+          let obj = JSON.stringify(ad.toString());
+          obj.pet = obj.petId;
+          delete obj.petId;
+          console.log(obj);
+          return obj;
+        });
         return apiResponse.successResponseWithData(res, "Ad Found!", ads);
       }
     } catch (e) {
@@ -255,7 +263,8 @@ exports.getLatestAds = [
         .sort()
         .filter()
         .paginate()
-        .query.exec();
+        .query.populate("petId")
+        .exec();
       if (ads && !ads.isEmpty) {
         return apiResponse.successResponseWithData(res, "Ad Found!", ads);
       }
@@ -264,29 +273,3 @@ exports.getLatestAds = [
     }
   },
 ];
-
-function getPetsForEachAdd(result) {}
-function filterQueryParams(params) {
-  let filter = [],
-    price = {};
-  if (params.address) {
-    filter.push({ address: { $regex: ".*" + params.address } });
-  }
-  if (params.purpose) {
-    filter.push({ purpose: params.purpose });
-  }
-  if (params.priceMin) {
-    price.$gte = params.priceMin;
-  }
-  if (params.priceMax) {
-    price.$lte = params.priceMax;
-  }
-  if (Object.keys(price).length !== 0) filter.push({ price });
-  return filter;
-}
-function paginate(query, params) {
-  const page = params.page * 1 || 1;
-  const limit = 10;
-  const skip = (page - 1) * limit;
-  return query.skip(skip).limit(limit);
-}
