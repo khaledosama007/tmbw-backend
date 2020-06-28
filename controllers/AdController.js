@@ -211,16 +211,14 @@ exports.search = [
         .paginate()
         .query.populate("petId")
         .exec();
-      if (ads && !ads.isEmpty) {
-        ads.map((ad) => {
-          let obj = JSON.stringify(ad.toString());
-          obj.pet = obj.petId;
-          delete obj.petId;
-          console.log(obj);
-          return obj;
-        });
+      if (ads.length !== 0) {
+        if (req.query.category) {
+          ads.filter((ad) => {
+            ad.petId.category == req.query.category;
+          });
+        }
         return apiResponse.successResponseWithData(res, "Ad Found!", ads);
-      }
+      } else return apiResponse.ErrorResponse(res, "failed to get ads");
     } catch (e) {
       return apiResponse.ErrorResponse(res, "failed to get ads");
     }
