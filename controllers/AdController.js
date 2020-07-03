@@ -218,6 +218,12 @@ exports.search = [
             ad.petId.category === req.query.category;
           });
         }
+        if (req.query.gender) {
+          console.log("genFound + " + req.query.gender);
+          ads = ads.filter((ad) => {
+            ad.petId.gender === req.query.gender;
+          });
+        }
         if (ads.length === 0)
           return apiResponse.ErrorResponse(res, "failed to get ads");
         else return apiResponse.successResponseWithData(res, "Ad Found!", ads);
