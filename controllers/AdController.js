@@ -213,11 +213,14 @@ exports.search = [
         .exec();
       if (ads.length !== 0) {
         if (req.query.category) {
-          ads.filter((ad) => {
-            ad.petId.category == req.query.category;
+          console.log("catFound + " + req.query.category);
+          ads = ads.filter((ad) => {
+            ad.petId.category === req.query.category;
           });
         }
-        return apiResponse.successResponseWithData(res, "Ad Found!", ads);
+        if (ads.length === 0)
+          return apiResponse.ErrorResponse(res, "failed to get ads");
+        else return apiResponse.successResponseWithData(res, "Ad Found!", ads);
       } else return apiResponse.ErrorResponse(res, "failed to get ads");
     } catch (e) {
       return apiResponse.ErrorResponse(res, "failed to get ads");
