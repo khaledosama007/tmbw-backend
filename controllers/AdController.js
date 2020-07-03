@@ -7,6 +7,7 @@ const auth = require("../middlewares/jwt");
 const fs = require("fs");
 const { check, body, validationResult } = require("express-validator");
 const AWS = require("aws-sdk");
+const { type } = require("os");
 const ObjectID = require("mongodb").ObjectID;
 
 AWS.config.setPromisesDependency(require("bluebird"));
@@ -211,24 +212,31 @@ exports.search = [
         .paginate()
         .query.populate("petId")
         .exec();
+      console.log(req.query);
       if (ads.length !== 0) {
         if (req.query.category) {
-          console.log("catFound + " + req.query.category);
           ads = ads.filter((ad) => {
-            ad.petId.category === req.query.category;
+            return ad.petId.category === parseInt(req.query.category, 10);
           });
         }
         if (req.query.gender) {
-          console.log("genFound + " + req.query.gender);
           ads = ads.filter((ad) => {
-            ad.petId.gender === req.query.gender;
+            return ad.petId.gender == req.query.gender;
           });
         }
+        if (req.query.name) {
+          console.log(req.query.name);
+          ads = ads.filter((ad) => {
+            return ad.petId.name == req.query.name;
+          });
+        }
+
         if (ads.length === 0)
           return apiResponse.ErrorResponse(res, "failed to get ads");
         else return apiResponse.successResponseWithData(res, "Ad Found!", ads);
       } else return apiResponse.ErrorResponse(res, "failed to get ads");
     } catch (e) {
+      console.log(e);
       return apiResponse.ErrorResponse(res, "failed to get ads");
     }
     // let params = req.query;
