@@ -13,6 +13,7 @@ class APIFeatures {
       "fields",
       "category",
       "gender",
+      "name",
     ];
     excludedFields.forEach((el) => delete queryObj[el]);
 
