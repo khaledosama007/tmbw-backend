@@ -3,7 +3,7 @@ var authRouter = require("./auth");
 var userRouter = require("./user");
 var petRouter = require("./pet");
 var adRouter = require("./ad");
-var importData = require("./../rawdata/import-data");
+var importData = require("../rawdata/import-data");
 var app = express();
 app.use("/auth/", authRouter);
 app.use("/user/", userRouter);

@@ -3,15 +3,18 @@ const mongoose = require("mongoose");
 const CategoryModel = require("./../models/CategoryModel").CategoryModel;
 const SUbcategoryModel = require("./../models/SubcategoryModel")
   .SubcategoryModel;
-
-exports.importData = async (req, res) => {
-  importCats();
-  importDogs();
-  importHorses();
-  importBirds();
-  return res.status(200);
-};
-
+const auth = require("../middlewares/jwt");
+exports.importData = [
+  auth,
+  (req, res) => {
+    importCats();
+    // importDogs();
+    //importHorses();
+    // importBirds();
+    console.log("Req");
+    return res.status(200);
+  },
+];
 function importCats() {
   const cats = JSON.parse(fs.readFileSync(`${__dirname}/cats.json`, "utf-8"));
   //let catsCategory = await CategoryModel.create({ name: "Cats" });
@@ -20,19 +23,22 @@ function importCats() {
   let subCategoriesMap = cats.cats.map((subName, index) => {
     subcategories.push({ name: subName, id: index + 1 });
   });
-  SUbcategoryModel.create(subcategories).then((value) => {
-    value.forEach((element) => {
-      subcategoriesIds.push(element._id);
-    });
-    new CategoryModel({ name: "Cats", subs: subcategoriesIds, id: 1 }).save();
-  });
+  SUbcategoryModel.insertMany(subcategories).then(
+    (value) => {
+      console.log("Saved");
+      value.forEach((element) => {
+        subcategoriesIds.push(element._id);
+      });
+      new CategoryModel({ name: "Cats", subs: subcategoriesIds, id: 1 }).save();
+    },
+    (err) => console.log(err)
+  );
   fs.writeFileSync(
     `${__dirname}/catsNew.json`,
     JSON.stringify(subcategories),
     "utf-8"
   );
 }
-
 function importDogs() {
   const dogs = JSON.parse(fs.readFileSync(`${__dirname}/dogs.json`, "utf-8"))
     .dogs;
