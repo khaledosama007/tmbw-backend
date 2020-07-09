@@ -8,9 +8,9 @@ exports.importData = [
   auth,
   (req, res) => {
     importCats();
-    // importDogs();
-    //importHorses();
-    // importBirds();
+    importDogs();
+    importHorses();
+    importBirds();
     console.log("Req");
     return res.status(200);
   },
