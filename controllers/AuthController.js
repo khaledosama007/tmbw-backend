@@ -146,10 +146,15 @@ exports.login = [
               const secret = process.env.JWT_SECRET;
               //Generated JWT token with Payload and secret.
               userData.token = jwt.sign(jwtPayload, secret, jwtData);
+              console.log(user);
+              let result = user.toObject();
+              result.token = userData.token;
+              // userData.user = user
+              // userData.user.token = userData.token
               return apiResponse.successResponseWithData(
                 res,
                 "Login Success.",
-                userData
+                result
               );
             } else {
               return apiResponse.unauthorizedResponse(
