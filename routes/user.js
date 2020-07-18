@@ -11,4 +11,6 @@ router.post(
   ),
   UserController.addPicture
 );
+router.post("/update-mobile", UserController.updateMobileNumber);
+router.get("/user-profile/:id", UserController.getProfile);
 module.exports = router;

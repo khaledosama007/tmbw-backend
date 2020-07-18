@@ -9,7 +9,29 @@ const { check, body, validationResult } = require("express-validator");
 const AWS = require("aws-sdk");
 const { type } = require("os");
 const ObjectID = require("mongodb").ObjectID;
+const Joi = require("joi");
 
+const validateAddAd = Joi.object().keys({
+  name: Joi.string().required().error(new Error("Name is required")),
+  age: Joi.number().required(),
+  category: Joi.number().required(),
+  subcategory: Joi.number().required(),
+  gender: Joi.string().length(1).required(),
+  price: Joi.number().required(),
+  address: Joi.string().required(),
+  phoneNumber: Joi.string(),
+  purpose: Joi.string(),
+  userid: Joi.string().length(24),
+});
+
+const validateAddAddWithPet = Joi.object().keys({
+  price: Joi.number().required(),
+  address: Joi.string().required(),
+  phoneNumber: Joi.string(),
+  purpose: Joi.string(),
+  userid: Joi.string().length(24),
+  petid: Joi.string().length(24),
+});
 AWS.config.setPromisesDependency(require("bluebird"));
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -19,34 +41,35 @@ const s3 = new AWS.S3({
 
 exports.addAd = [
   auth,
-  body("name", "Name is required.").isLength({ min: 1 }),
-  body("age", "Age is required").isNumeric(),
-  body("category", "You must choose a category Id")
-    .isNumeric()
-    .isLength({ min: 1 }),
-  check("gender", "Geder error check").matches("[MF]+"),
-  body("subcategory", "You must select a subcategory Id")
-    .isNumeric()
-    .isLength({ min: 1 }),
-  body("price").isNumeric(),
-  body("address").isString(),
-  body("phoneNumber").isMobilePhone("ar-EG"),
-  body("purpose").isString(),
-  check("userid")
-    .isLength({ min: 1 })
-    .custom((val) => {
-      return UserModel.findById(new ObjectID(val), (err, user) => {
-        if (!err) return Promise.reject("user not found");
-      });
-    }),
+  // body("name", "Name is required.").isLength({ min: 1 }),
+  // body("age", "Age is required").isNumeric(),
+  // body("category", "You must choose a category Id")
+  //   .isNumeric()
+  //   .isLength({ min: 1 }),
+  // check("gender", "Geder error check").matches("[MF]+"),
+  // body("subcategory", "You must select a subcategory Id")
+  //   .isNumeric()
+  //   .isLength({ min: 1 }),
+  // body("price").isNumeric(),
+  // body("address").isString(),
+  // body("phoneNumber").isMobilePhone("ar-EG"),
+  // body("purpose").isString(),
+  // check("userid")
+  //   .isLength({ min: 1 })
+  //   .custom((val) => {
+  //     return UserModel.findById(new ObjectID(val), (err, user) => {
+  //       if (err) return Promise.reject("user not found");
+  //     });
+  //   }),
   async (req, res) => {
     try {
-      let errors = validationResult(req);
-      if (!errors.isEmpty()) {
+      const { error, value } = validateAddAd.validate(req.body);
+      if (error) {
+        console.log(error);
         return apiResponse.validationErrorWithData(
           res,
           "Validation Error",
-          errors.array()
+          error
         );
       }
       let imagesArr = [];
@@ -105,38 +128,36 @@ exports.addAd = [
           // });
         }
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   },
 ];
 
 exports.addAdWithMyPet = [
   auth,
-  body("price", "Price should be provided").isNumeric(),
-  body("address").isString(),
-  body("phoneNumber").isMobilePhone("ar-EG"),
-  body("purpose").isString(),
-  check("userid")
-    .isLength({ min: 1 })
-    .custom(async (val) => {
-      let user = await UserModel.findById(new ObjectID(val)).exec();
-      if (!user) return Promise.reject("user not found");
-    }),
-  body("petid")
-    .isLength({ min: 1 })
-    .custom(async (petid) => {
-      let pet = await PetModel.findById(new ObjectID(petid)).exec();
-      if (!pet) return Promise.reject("Pet id not found");
-    }),
-  (req, res) => {
+  // body("price", "Price should be provided").isNumeric(),
+  // body("address").isString(),
+  // body("phoneNumber").isMobilePhone("ar-EG"),
+  // body("purpose").isString(),
+  // check("userid")
+  //   .isLength({ min: 1 })
+  //   .custom(async (val) => {
+  //     let user = await UserModel.findById(new ObjectID(val)).exec();
+  //     if (!user) return Promise.reject("user not found");
+  //   }),
+  // body("petid")
+  //   .isLength({ min: 1 })
+  //   .custom(async (petid) => {
+  //     let pet = await PetModel.findById(new ObjectID(petid)).exec();
+  //     if (!pet) return Promise.reject("Pet id not found");
+  //   }),
+  async (req, res) => {
     console.log(req.body);
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    let { errors } = validateAddAddWithPet.validate(req.body);
+    if (errors) {
       return apiResponse.validationErrorWithData(
         res,
         "Validation Error",
-        errors.array()
+        errors
       );
     }
     PetModel.findByIdAndUpdate(
@@ -148,6 +169,7 @@ exports.addAdWithMyPet = [
         }
       }
     );
+    console.log("Pet Updated");
     let newAd = new AdModel({
       petId: req.body.petid,
       price: req.body.price,
@@ -157,15 +179,17 @@ exports.addAdWithMyPet = [
       verified: false,
       userId: req.body.userid,
     });
-    newAd.save((err, ad) => {
-      if (err)
-        return apiResponse.ErrorResponse(res, "Error happende try again later");
+    try {
+      let ad = await newAd.save();
+      let finalAd = await ad.populate("petId").execPopulate();
       return apiResponse.successResponseWithData(
         res,
         "Ad posted successfully",
-        ad
+        finalAd
       );
-    });
+    } catch (err) {
+      return apiResponse.ErrorResponse(res, "Error happende try again later");
+    }
   },
 ];
 
@@ -288,3 +312,51 @@ exports.getLatestAds = [
     }
   },
 ];
+exports.getAdById = [
+  auth,
+  async (req, res) => {
+    if (!ObjectID.isValid(req.params.id)) {
+      return apiResponse.ErrorResponse(res, "Ad id is not valid");
+    }
+    try {
+      let ad = await AdModel.findById(new ObjectID(req.params.id)).exec();
+      console.log(ad);
+      if (ad) {
+        let pet = await PetModel.findById(ad.petId);
+        if (pet && pet.belongToAd) {
+          let finalAd = await ad.populate("petId").execPopulate();
+          return apiResponse.successResponseWithData(res, "Ad Found", finalAd);
+        }
+      } else {
+        return apiResponse.ErrorResponse(res, "can't find ad with this Id");
+      }
+    } catch (e) {
+      return apiResponse.ErrorResponse(res, "can't find ad with this Id");
+    }
+  },
+];
+// // function validateAddAd(req) {
+// //   req.checkbody("name", "Name is required.").isLength({ min: 1 }),
+// //     req.checkbody("age", "Age is required").isNumeric(),
+// //     req
+// //       .checkbody("category", "You must choose a category Id")
+// //       .isNumeric()
+// //       .isLength({ min: 1 }),
+// //     req.checkbody("gender", "Geder error check").matches("[MF]+"),
+// //     req
+// //       .checkbody("subcategory", "You must select a subcategory Id")
+// //       .isNumeric()
+// //       .isLength({ min: 1 }),
+// //     req.checkbody("price").isNumeric(),
+// //     req.checkbody("address").isString(),
+// //     req.checkbody("phoneNumber").isMobilePhone("ar-EG"),
+// //     req.checkbody("purpose").isString(),
+// //     req
+// //       .checkbody("userid")
+// //       .isLength({ min: 1 })
+// //       .custom((val) => {
+// //         return UserModel.findById(new ObjectID(val), (err, user) => {
+// //           if (!err) return Promise.reject("user not found");
+// //         });
+// //       });
+// }

@@ -10,7 +10,8 @@ var UserSchema = new mongoose.Schema(
       { type: mongoose.Schema.Types.ObjectId, required: false, ref: "Pet" }
     ],
     profilePic: { type: String, required: false },
-    rate: { type: Number, required: false }
+    rate: { type: Number, required: false },
+    phoneNumber :{type : String , required : false}
   },
   { timestamps: true }
 );

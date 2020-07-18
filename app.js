@@ -34,15 +34,16 @@ var app = express();
 if (process.env.NODE_ENV !== "test") {
   app.use(logger("dev"));
 }
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//app.use(express.json());
+//app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/v1/", jwt);
 //To allow cross-origin requests
 app.use(cors());
-//app.use(bodyParser.urlencoded({ urlencoded: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 //Route Prefixes
 app.use("/", indexRouter);
 app.use("/api/v1/", apiRouter);

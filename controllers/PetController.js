@@ -6,7 +6,15 @@ const fs = require("fs");
 const { check, body, validationResult } = require("express-validator");
 const AWS = require("aws-sdk");
 const ObjectID = require("mongodb").ObjectID;
-
+const Joi = require("joi");
+const validateAddPet = Joi.object().keys({
+  name: Joi.string().required().error(new Error("Name is required")),
+  age: Joi.number().required(),
+  category: Joi.number().required(),
+  subcategory: Joi.number().required(),
+  gender: Joi.string().length(1).required(),
+  owner: Joi.string().length(24),
+});
 AWS.config.setPromisesDependency(require("bluebird"));
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -16,40 +24,41 @@ const s3 = new AWS.S3({
 
 exports.addPet = [
   auth,
-  body("name", "Name is required.").isLength({ min: 1 }),
-  body("age", "Age is required").isNumeric(),
-  check("gender", "Gender is required")
-    .matches("[MF]+")
-    .isLength({ min: 1, max: 1 }),
-  body("category", "You must choose a category Id")
-    .isNumeric()
-    .isLength({ min: 1 }),
-  body("subcategory", "You must select a subcategory Id")
-    .isNumeric()
-    .isLength({ min: 1 }),
-  body("price").isNumeric(),
-  body("address").isString(),
-  body("owner", "A pet must have at least one owner").custom(
-    async (value, { req }) => {
-      let pet = await PetModel.find({
-        name: req.body.name,
-        owner: value,
-      }).exec();
-      if (pet.length) {
-        console.log("foundUser" + pet);
-        if (pet) return Promise.reject("You can't add two pets with same name");
-      } else {
-      }
-    }
-  ),
+  // body("name", "Name is required.").isLength({ min: 1 }),
+  // body("age", "Age is required").isNumeric(),
+  // check("gender", "Gender is required")
+  //   .matches("[MF]+")
+  //   .isLength({ min: 1, max: 1 }),
+  // body("category", "You must choose a category Id")
+  //   .isNumeric()
+  //   .isLength({ min: 1 }),
+  // body("subcategory", "You must select a subcategory Id")
+  //   .isNumeric()
+  //   .isLength({ min: 1 }),
+  // body("price").isNumeric(),
+  // body("address").isString(),
+  // body("owner", "A pet must have at least one owner").custom(
+  //   async (value, { req }) => {
+  //     let pet = await PetModel.find({
+  //       name: req.body.name,
+  //       owner: value,
+  //     }).exec();
+  //     if (pet.length) {
+  //       console.log("foundUser" + pet);
+  //       if (pet) return Promise.reject("You can't add two pets with same name");
+  //     } else {
+  //     }
+  //   }
+  // ),
   async (req, res) => {
     try {
-      let errors = validationResult(req);
-      if (!errors.isEmpty()) {
+      let { errors } = validateAddPet.validate(req.body);
+      if (errors) {
+        console.log(errors);
         return apiResponse.validationErrorWithData(
           res,
           "Validation Error.",
-          errors.array()
+          errors
         );
       } else {
         let imagesArr = [];
