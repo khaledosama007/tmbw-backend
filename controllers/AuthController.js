@@ -55,10 +55,11 @@ exports.register = [
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         // Display sanitized values/errors messages.
+        console.log(errors)
         return apiResponse.validationErrorWithData(
           res,
           "Validation Error.",
-          errors.array()
+          errors
         );
       } else {
         //hash input password

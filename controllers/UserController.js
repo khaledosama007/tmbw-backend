@@ -84,10 +84,11 @@ exports.updateMobileNumber = [
 exports.getProfile = [
   auth,
   async function (req, res) {
-    let user = await UserModel.find({ _id: req.params.id })
+    let user = await UserModel.findOne({ _id: req.params.id })
       .populate("pets")
       .exec();
     if (user) {
+      console.log(user);
       return apiResponse.successResponseWithData(
         res,
         "User profile found",
