@@ -77,7 +77,7 @@ exports.addPet = [
               promises.push(uploadPromise);
             });
             Promise.all(promises).then(
-              (arr) => {
+               (arr) => {
                 arr.forEach((data, index) => {
                   //fs.unlinkSync(file.path);
                   imagesArr.push(data.Location);
@@ -96,6 +96,8 @@ exports.addPet = [
                 });
                 newPet.save(function (err, pet) {
                   if (err) return apiResponse.ErrorResponse(res, err);
+                  user.pets.push(newPet._id);
+                  user.save();
                   let returnData = {
                     id: newPet._id,
                     name: newPet.name,
