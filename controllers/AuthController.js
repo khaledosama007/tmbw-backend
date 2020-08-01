@@ -126,7 +126,7 @@ exports.login = [
           errors.array()
         );
       } else {
-        UserModel.findOne({ email: req.body.email }).then((user) => {
+        UserModel.findOne({ email: req.body.email }).populate("pets").then((user) => {
           if (user) {
             //Compare given password with db's hash.
             let simpleCrypto = new SimpleCrypto(
