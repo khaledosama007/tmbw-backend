@@ -128,7 +128,7 @@ exports.addAd = [
           // });
         }
       }
-    } catch (err) {}
+    } catch (err) { }
   },
 ];
 
@@ -209,7 +209,7 @@ exports.deleteAd = [
                 PetModel.deleteOne({ _id: pet._id }).then();
               }
             },
-            (err) => {}
+            (err) => { }
           );
           AdModel.deleteOne({ _id: req.params.id }).then((val) => {
             return apiResponse.successResponse(res, "Ad deleted Successfully");
@@ -234,10 +234,17 @@ exports.search = [
         .sort()
         .filter()
         .paginate()
-        .query.populate("petId")
+        .query.populate("petId").populate("userId")
         .exec();
-      console.log(req.query);
       if (ads.length !== 0) {
+        if (req.query.age) {
+          //console.log(ads);
+          ads = ads.filter((ad) => {
+            console.log(ad.petId.age)
+            return ad.petId.age < parseInt(req.query.age.lt) && ad.petId.age > parseInt(req.query.age.gt)
+          })
+        }
+        console.log(ads)
         if (req.query.category) {
           ads = ads.filter((ad) => {
             return ad.petId.category === parseInt(req.query.category, 10);
@@ -302,7 +309,7 @@ exports.getLatestAds = [
         .sort()
         .filter()
         .paginate()
-        .query.populate("petId")
+        .query.populate("petId").populate("userId")
         .exec();
       if (ads && !ads.isEmpty) {
         return apiResponse.successResponseWithData(res, "Ad Found!", ads);

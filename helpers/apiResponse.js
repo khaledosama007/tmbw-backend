@@ -34,10 +34,11 @@ exports.notFoundResponse = function (res, msg) {
 
 exports.validationErrorWithData = function (res, msg, data) {
   data = Array.isArray(data) ? data : [data];
+  console.log(data)
   var resData = {
     status: 0,
     message: msg,
-    error: data,
+    data,
   };
   return res.status(400).json(resData);
 };
