@@ -25,7 +25,7 @@ exports.register = [
     .isLength({ min: 1 })
     .trim()
     .withMessage("name must be specified.")
-    .isAlphanumeric()
+    .isString()
     .withMessage("name has non-alphanumeric characters."),
   body("email")
     .isLength({ min: 1 })
@@ -55,11 +55,11 @@ exports.register = [
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         // Display sanitized values/errors messages.
-        console.log(errors)
+        console.log(errors.array())
         return apiResponse.validationErrorWithData(
           res,
           "Validation Error.",
-          errors
+          errors.array()
         );
       } else {
         //hash input password

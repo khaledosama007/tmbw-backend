@@ -11,6 +11,7 @@ class APIFeatures {
       "sort",
       "limit",
       "fields",
+      "age",
       "category",
       "gender",
       "name",
