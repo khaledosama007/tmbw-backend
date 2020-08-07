@@ -118,9 +118,13 @@ exports.addAd = [
               });
               newAd.save(function (err, ad) {
                 if (err) {
-                  console.log("errorInNewAdSaeve " + err);
                   return apiResponse.ErrorResponse(res, err);
-                } else return apiResponse.successResponseWithData(res, "Ad Added Successfully", ad);
+                } else {
+                  ad.petId = newPet;
+                  user.pets.push(pet._id);
+                  user.save();
+                  return apiResponse.successResponseWithData(res, "Ad Added Successfully", ad);
+                }
               });
             });
           }
