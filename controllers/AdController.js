@@ -206,22 +206,12 @@ exports.deleteAd = [
     try {
       let ad = await AdModel.findById(new ObjectID(req.params.id)).exec();
       if (ad) {
-        if (ad) {
-          PetModel.findById(ad.petId).then(
-            (pet) => {
-              if (pet && pet.belongToAd) {
-                PetModel.deleteOne({ _id: pet._id }).then();
-              }
-            },
-            (err) => { }
-          );
-          AdModel.deleteOne({ _id: req.params.id }).then((val) => {
-            return apiResponse.successResponse(res, "Ad deleted Successfully");
-          });
-        } else {
-          return apiResponse.ErrorResponse(res, "can't find ad with this Id");
-        }
-      }
+        let result = await AdModel.deleteOne({ _id: req.params.id })
+        if (result.ok)
+          return apiResponse.successResponse(res, "Ad deleted Successfully");
+        else return apiResponse.ErrorResponse(res, "can't find ad with this Id");
+      } else
+        return apiResponse.ErrorResponse(res, "can't find ad with this Id");
     } catch (e) {
       return apiResponse.ErrorResponse(res, "can't find ad with this Id");
     }
@@ -233,12 +223,12 @@ exports.search = [
   async (req, res) => {
     try {
       let result = [];
-      let query = AdModel.find({});
+      let query = AdModel.find({}).populate("petId");
       let ads = await new ApiFeatures(query, req.query)
         .sort()
         .filter()
         .paginate()
-        .query.populate("petId").populate("userId")
+        .query.populate("userId")
         .exec();
       if (ads.length !== 0) {
         if (req.query.age) {
