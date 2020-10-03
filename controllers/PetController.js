@@ -7,6 +7,7 @@ const { check, body, validationResult } = require("express-validator");
 const AWS = require("aws-sdk");
 const ObjectID = require("mongodb").ObjectID;
 const Joi = require("joi");
+const AdModel = require("../models/AdModel");
 const validateAddPet = Joi.object().keys({
   name: Joi.string().required().error(new Error("Name is required")),
   age: Joi.number().required(),
@@ -153,7 +154,7 @@ exports.deletePet = [
       if (!ObjectID.isValid(req.params.id)) {
         return apiResponse.ErrorResponse(res, "Pet id is not valid");
       }
-
+      await AdModel.deleteMany({petId : new ObjectID(req.params.id)});
       let pet = PetModel.findByIdAndDelete(new ObjectID(req.params.id)).exec();
       if (pet) {
         return apiResponse.successResponse(res, "Pet Deleted Successfully");
