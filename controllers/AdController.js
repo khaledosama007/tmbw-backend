@@ -17,7 +17,7 @@ const validateAddAd = Joi.object().keys({
   category: Joi.number().required(),
   subcategory: Joi.number().required(),
   gender: Joi.string().length(1).required(),
-  price: Joi.number().required(),
+  price: Joi.number(),
   address: Joi.string().required(),
   phoneNumber: Joi.string(),
   purpose: Joi.string(),
@@ -25,7 +25,7 @@ const validateAddAd = Joi.object().keys({
 });
 
 const validateAddAddWithPet = Joi.object().keys({
-  price: Joi.number().required(),
+  price: Joi.number(),
   address: Joi.string().required(),
   phoneNumber: Joi.string(),
   purpose: Joi.string(),
