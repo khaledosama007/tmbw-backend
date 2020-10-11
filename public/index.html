@@ -1,80 +1,242 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMBW</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Nunito:wght@200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+    <link rel="stylesheet" href='./css/all.min.css'>
     <link rel="stylesheet" href="css/index_style.css">
 
 </head>
 <body>
 
-    <section class="bgNav">
+    <div id="control" class="d-flex align-items-center justify-content-center rounded" >
+      <i class="fas fa-arrow-up text-white"></i>
+    </div>
 
-        <div class="container">
+  
 
-            <nav class="navbar navbar-expand-lg navbar-light navSize">
-
-                <a class="navbar-brand"  href="#"><img src="images/Logo White Back Ground  2 PNG.png"id="nav-brand"></a>
-                
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-
-                </button>
-
-              
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav ml-auto">
-                      
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                      </li>
-                    
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">About Us<span class="sr-only">(current)</span></a>
-                      </li>
-                    
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Services<span class="sr-only">(current)</span></a>
-                      </li>
-                    
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Blogs<span class="sr-only">(current)</span></a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Contacts<span class="sr-only">(current)</span></a>
-                      </li>
-                         
-                  </ul>
-                
-                </div>
-              </nav>
-        </div>
-    
-    </section>
-
+  
     <!---------------------------------------------->
+    <section id="homeAndNav-s">
 
-    <section id="home">
-        <div class="homeInfo">
-            <h1>welcome to <br><span>TMPW!</span></h1>
-            <p>Fits in home, Fits in TMPW!</p>
-            <a href="#"><img src="images/google-play-badge.png"></a>
-        </div>
-        <img class="sh5a" src="images/groomax-dog-slider1.png">
+      <nav id="homenav-s">
+
+        <input type="checkbox" id="check">
+  
+        <label for="check" class="checklist">
+  
+            <i class="fas fa-bars"></i>
+  
+  
+        </label>
+  
+        <div class="logo"><img src="images/Logo White Back Ground  2 PNG.png"></div>
+  
+        <ul>
+  
+        
+            <a href="#homeAndNav"><li>Home</li></a>
+            <a href="#aboutUs"><li>About us</li></a>
+            <a href="#services"><li>Services</li></a>
+            <a href="#steps"><li>Journey</li></a>
+            <a href="#footer"><li>Contact us</li></a>
+  
+        </ul>
+      </nav>
+      <section id="home-s">
+          
+          <div class="homeInfo">
+              <h1>welcome to <br><span>TMBW!</span></h1>
+              <p class="ml-1">Fits in home, Fits in TMBW!</p>
+              <a href="#"><img src="images/google-play-badge.png"></a>
+          </div>
+          <img class="beginningPhoto" src="images/groomax-dog-slider1.png">
+      </section>
     </section>
 
+    <!-------------------------------------->
+
+    <section id="aboutUs-s" class="my-5 py-3">
+
+      <div class="container">
+        <div class="text-center"> <h1>ABOUT US</h1</div>
+
+          <div class="lines">
+            <p class="fline"></p>
+            <p class="sline"></p>
+            <p class="tline"></p>
+          </div>
+    
+    
+    
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h1 class="card-title">Vision</h1>
+                  <h5 class="card-text">Make the whole society acting kindly, friendly and harmonious with pets.</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">  
+                <div class="card-body">
+                  <h1 class="card-title">Mission</h1>
+                  <h5 class="card-text">Collect pets Lovers in one platform to communicate with each other and get different pet services they need professionally.</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h1 class="card-title">Our Goals!</h1>
+                  <h5 class="card-text">Presents our main features in our first edition in a smart way.</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+      </div>
+      
+    </section>
+    
     <!-------------------------------------------------------->
 
-    <section id="journey" class="my-5">
+    <section id="journey-s" class="my-3">
 
-      <div class="journeyDef my-3 pt-5 text-center">
+          <div class="journeyDef my-3 pt-5 text-center">
+            
+            <h1>Your journey is here</h1>
+            <p>'Let's check our journey in the first edition of TMPW!. You will be amazed!.'</p>
+          </div>
+
+          <div class="lines">
+            <p class="fline"></p>
+            <p class="sline"></p>
+            <p class="tline"></p>
+          </div>
+          
+          <div class="firstJourney">
+
+              <div class="row pb-5 my-5">
+
+                  <div class="col-md-5 p-5">
+
+                    <div class="firstDetails mt-3 pl-4">
+                      <h1>Open your TMPW app!</h1>
+                      <p class="pb-5">You can download our latest android version from here</p>
+                      <a href="#" id="downloadNow"><img src="images/text_03 ayman 33 (1).png" alt="" class="w-75"></a>
+                    </div>            
+
+                  </div>
+
+                  <div class="col-md-1"></div>
+                  <div class="col-md-6">
+
+                    <img src="images/Bird Ayman.png" alt="a bird">
+
+                  </div>  
+              </div>
+
+          </div>
+
+    </section>
+
+    <!-- Start services  -->
+
+    <section id="services-s">
+
+          <hr>
+          <div class="my-5">
+            <h1 class="text-center">Our Services</h1>
+            <div class="lines">
+              <p class="fline"></p>
+              <p class="sline"></p>
+              <p class="tline"></p>
+            </div>
+          </div>
+
+          <div class="container pb-4">
+              <div class="row">
+
+                <div class="col-md-3">
+
+                  <div class="rounded">
+
+                    <div class="card text-left bgService">
+                      <img class="card-img-top mt-2" src="images/sell 2.png"  alt="">
+                      <div class="card-body my-3">
+                        <h4 class="card-title titleCard">Sell & Buy</h4>
+                        <p class="card-text">If you are searching for a new friend, Make sure you will find him here in TMPW, or add an ad of your pet for selling purpose.</p>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="col-md-3">
+                  <div class="rounded">
+
+                    <div class="card text-left bgService">
+                      <img class="card-img-top mt-2" src="images/Adopt.png"  alt="">
+                      <div class="card-body my-3">
+                        <h4 class="card-title titleCard">Adoption</h4>
+                        <p class="card-text">If you can't continue keeping your pet, Now easily you can find a safe and sweet home for him. or take responsibility for a pet and be the new home for him.</p>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="rounded">
+
+                    <div class="card text-left bgService">
+                      <img class="card-img-top mt-2" src="images/Mate 3.png"  alt="">
+                      <div class="card-body my-3">
+                        <h4 class="card-title titleCard">Mating</h4>
+                        <p class="card-text">If your pet is mad and needs his second half, You can search TMBW to find his/her life partner and make him happy. or add an ad of your pet for mating purpose.</p>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="rounded">
+
+                    <div class="card text-left bgService">
+                      <img class="card-img-top mt-2" src="images/Host.png"  alt="">
+                      <div class="card-body my-3">
+                        <h4 class="card-title titleCard">Hosting</h4>
+                        <p class="card-text">If you are leaving your pet for a while and need someone to take care of him, You can find your trusted one here in TMBW, or host a pet for a while.</p>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <hr> 
+    </section>
+
+    <!-- End of services  -->
+
         
-         <h1>Your journey is here</h1>
-         <p>'Let's check our journey in the first eddition from TMPW!, You will be amazed'</p>
+    <!--  Journey steps    -->
+
+    
+    <section id="steps-s" class="mb-5">
+
+      <div class="text-center mt-5">
+        <h1>Check The Journey</h1>
       </div>
 
       <div class="lines">
@@ -83,55 +245,155 @@
         <p class="tline"></p>
       </div>
 
-      <div class="firstJourney">
+  
 
-        <div class="row pb-5 my-5">
+      <div class="container">
+        <div class="row">
+              <div class="col-md-4">
+                <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4">
+                      <img src="./images/Check other ad 2.jpg" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title bold">1. Check users ads</h5>
+                        <p class="card-text">Now, You can check users' ads. You can also filter ads by pet type, purpose, city, gender, age, and price to find your desired pet easily and fastly.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-            <div class="col-md-5 p-5">
+              <div class="col-md-4">
 
-            <div class="firstDetails mt-5 pl-4">
-              <h1>Open your TMPW! app</h1>
-              <p class="pb-5">You can download our latest android version from here</p>
-              <a href="#" id="downloadNow"><img src="images/text_03 ayman 33 (1).png" alt="" class="w-75"></a>
-            </div>            
+                <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4">
+                      <img src="./images/choose your service 2.jpg" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title bold">2. Choose your needed service</h5>
+                        <p class="card-text">Check all info about the pet to make sure that this ad will make you satisfied.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            </div>
+              </div>
+              
 
-            <div class="col-md-1"></div>
-            <div class="col-md-6">
-
-              <img src="images/hero_image_03 ayman 5.png" alt="dog in rest">
-
-            </div>  
+              <div class="col-md-4">
+                <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4">
+                      <img src="./images/Contact ad owner 3.jpg" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title bold">3. Contact ad owner</h5>
+                        <p class="card-text">Contact the advertiser through the phone number and complete your service.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
         </div>
-              <!-------------------------------->       
-        <div class="row pb-5 my-5">
+      </div>
+
+    </section>
+    <!--  Start footer    -->
+
     
-              <div class="col-md-6">
+    <section id="footer-s">
 
-                <img src="images/hero_image_04 Cat Ayman.png" alt="dog in rest">
+          <div class="footerInfo pt-5">
 
+            <div class="container">
+
+              <div class="row">
+
+                  <div class="col-md-4 d-flex justify-content-center align-items-center">
+
+                    <div class="logoFooter">
+
+                      <i class="fas fa-paw mr-3"></i>
+
+                      <h1 class="text-white d-inline">TMBW</h1>
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-4">
+
+                    <div class="contactsFooter">
+
+                      <h2 class="text-white text-center">Contact us on</h2>
+
+                      <div class="contactone mt-3 text-center">
+                        <i class="fas fa-phone-alt"></i>
+                        <p class="d-inline ml-3 text-white">20- 1013061110</p>
+                        <p class="d-inline ml-3 text-white">20- 1015254561</p>
+                      </div>
+
+                      <div class="contactone mt-2 text-center">
+                        <i class="fas fa-envelope"></i>
+                        <p class="d-inline ml-3 text-white">Email: support@tmbw-pets.com</p>
+                      </div>
+
+                      <!-- <div class="contactone mt-2 text-center">
+                        <i class="fas fa-map-marker"></i>
+                        <p class="d-inline ml-3 text-white">123 Anywhere Street,London,LO4 6ON</p>
+                      </div> -->
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-4">
+
+                    <div class="followusFooter">
+
+                      <h2 class="text-white text-center">Follow us on</h2>
+
+                      <div class="my-4 d-flex justify-content-center">
+
+                        <a href="https://www.facebook.com/TMBWapp" target="_blank">
+                          <div class="footericon rounded-circle ml-4 mr-3">
+                            <i class="fab fa-facebook-f"></i>
+                          </div>
+                        </a>
+                        <a href="https://www.instagram.com/tmbwapp/" target="_blank">
+                          <div class="footericon rounded-circle mr-3">
+                            <i class="fab fa-instagram"></i>
+                          </div>
+                        </a>
+                        <a href="https://twitter.com/TMBW3" target="_blank">
+
+                          <div class="footericon rounded-circle mr-3">
+                            <i class="fab fa-twitter"></i>
+                          </div>
+                        </a>
+                      </div>              
+                    </div>
+                  </div>                
               </div>
-              <div class="col-md-1"></div>
+            </div>
+          </div>
 
-              <div class="col-md-5 p-5">
+    </section>
 
-                  <div class="secondDetails mt-5">
-                    <h1>Choose the service you want to get for yor pet.</h1>
-                    <p class="pb-5">Which service do you want ? <br>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat blanditiis, eligendi repellat perferendis iure minus nisi temporibus dignissimos, ipsam accusamus magni excepturi maxime quia. Iusto minus ex natus ducimus dolorem!</p>
-                    <button class="btn btn-outline-warning"> Sell & Buy</button>
-                    <button class="btn btn-outline-warning">Adobtion</button>
-                    <button class="btn btn-outline-warning">Hosting</button>
-                    <button class="btn btn-outline-warning">Hosting</button>
-                    <button class="btn btn-outline-warning">Mating</button>
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>    
+    <script src="js/script.js"></script>
+  </body>
+  </html>
 
-                  </div>            
 
-              </div>
-
-        </div>
-
-        <!------------------------>
+    <!---------------------- 
 
         <div class="row pb-5 my-5">
 
@@ -160,7 +422,6 @@
 
         </div>
 
-        <!-------------------------->      
         
         <div class="row pb-5 my-5">
             
@@ -181,8 +442,6 @@
                 </div>
 
         </div>
-
-        <!----------------------->
         <div class="row pb-5 my-5">
 
           <div class="col-md-5 p-5">
@@ -207,87 +466,8 @@
 
       </div>
 
-    </section>
+      -->
 
-    <!-------------------------------------->
+  
 
-    <section id="aboutUs" class="mb-5 pb-5">
-
-      <div class="container">
-        <div class="text-center"> <h1>ABOUT US</h1</div>
-
-          <div class="lines">
-            <p class="fline"></p>
-            <p class="sline"></p>
-            <p class="tline"></p>
-          </div>
-    
-    
-    
-          <div class="row">
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <h1 class="card-title">Vision</h1>
-                  <h5 class="card-text">With supporting text below as a natural lead-in to additional content.</h5>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card">  
-                <div class="card-body">
-                  <h1 class="card-title">Mission</h1>
-                  <h5 class="card-text">With supporting text below as a natural lead-in to additional content.</h5>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <h1 class="card-title">Our Goals!</h1>
-                  <h5 class="card-text">With supporting text below as a natural lead-in to additional content.</h5>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-      </div>
-    </section>
-
-    <!----------------------------------->
-
-    <section class="footer">
-
-      <div class="text-center">
-        <h1>CONTACT US</h1>
-      </div>
-
-      <div class="lines">
-        <p class="fline"></p>
-        <p class="sline"></p>
-        <p class="tline"></p>
-      </div>
-
-
-   <div class="footerInfo">
-    <p>TEL : 01013061110</p>
-    <p><a>Mail : abdelrhmanrabea@gmail.com</a></p>
-    <p>Address : 126 A Nasr-city</p>
-   </div>
-
-    </section>
-
-
-
-
-
-
-
-
-
-    <script src="js/jquery-3.5.1.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>    
-    <script src="js/script.js"></script>
-</body>
-</html>
+      <!----------------------------------->

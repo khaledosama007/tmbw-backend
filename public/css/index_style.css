@@ -1,9 +1,12 @@
 
+/*   General styles */
 
 body
 {
     font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
 }
+
 .clr
 {
     clear: both;
@@ -32,42 +35,135 @@ body
     margin: auto;
     margin-bottom: 100px;
 }
-/* ---------------------------------------- */
+/* --  End of general styles  -- */
 
-.bgNav
+/* -- Start navbar -- */ 
+#homenav-s
 {
+    height: 100px;
+    width: 100%;
     background-color: #F7F7F7;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 1000;
 }
-.navSize
+
+.logo 
 {
-    height: 16%;
+    margin-left: 10%;
+    display: inline-block;
 }
-#nav-brand
-{
+.logo  img 
+{  
     height: 200px;
+    position: absolute;
+    top: -50px;
 }
-.navbar .navbar-nav .nav-link
+ul
 {
-    color: black;
-    font-weight: bolder;
-    line-height: 34px;
+    float: right;
+    margin-right: 150px;
+}
+li
+{
+    display: inline-block;
+    line-height: 100px;
+    padding: 0px 10px;
+}
+a
+{
     font-size: 20px;
-    width: 120px;
     font-family: 'Nunito', sans-serif;
-    text-transform: capitalize;
+    color: black;
+    font-weight: bold;
+}
+a:hover 
+{
+    text-decoration: none;
+    color: #FFD600;
+}
+.checklist
+{
+    font-size: 30px;
+    line-height: 80px;
+    color: black;
+    float: right;
+    margin-right: 50px;
+    margin-top: 35px;
+    cursor: pointer;
+    display: none;
+}
+#check
+{
+    display: none;
 }
 
 
-/* ---------------------------------------- */
+@media  (max-width: 750px)
+{
 
-#home
+    .checklist
+    {
+        display: block; 
+    }
+
+    ul
+    {
+        width: 110%;
+        height: 100%;
+        background-color: #F7F7F7;
+        position: fixed;
+        top: 80px;
+        left: -110%;
+        text-align: center;
+        z-index: 10;
+        transition: all .5s;
+
+    }
+    li
+    {
+        display: block;
+    }
+    li:hover
+    {
+        background-color: #FFD600;
+        color: white;
+    }
+    a:hover {
+
+      text-decoration: none;
+    }
+    #check:checked ~ ul {
+
+        left: -10%;
+    }
+    .logo 
+    {
+        margin-left: 7%;
+    }
+}
+@media  (max-width: 1025px)
+{
+    ul
+    { margin-right: 20px;}
+
+    a { font-size: 14px;}
+}
+
+/* -- End nav bar ---*/
+
+/* -- start Home page --*/ 
+
+#home-s
 {
     background-color: #FFD600;
     height: 85vh;
     position: relative;
-
+    transform: translateY(100px);
 }
-#home .sh5a
+#home-s .beginningPhoto
 {
     position: absolute;
     width: 35%;
@@ -75,12 +171,12 @@ body
     top: 0;
     right: 8%;
 }
-#home .homeInfo a img 
+#home-s .homeInfo a img 
 {
     width: 15%;
 }
-#home .homeInfo {  padding: 10%;  }
-#home .homeInfo h1
+#home-s .homeInfo {  padding: 10%;  }
+#home-s .homeInfo h1
 {
     white-space: nowrap;
     font-size: 100px;
@@ -88,24 +184,93 @@ body
     font-weight: 900;
     font-family: 'Kalam', cursive;
 }
-#home .homeInfo h1 span 
+#home-s .homeInfo h1 span 
 { 
     font-family: 'Nunito' ,sans-serif;
     font-size: 80px;
     line-height: 79px;
     font-weight: 900;
 }
-#home .homeInfo p 
+#home-s .homeInfo p 
 {
     font-family: 'Nunito', sans-serif;
     line-height: 25px;
     font-weight: 700;
     text-transform: capitalize;
 }
-/* ---------------------------------------*/
 
+@media  (max-width: 1150px)
+{
+    #home-s
+    {
+        height: 75vh;
+    }
+    #home-s .beginningPhoto
+    {
+        position: absolute;
+        width: 35%;
+        right: 1%;
+    }
+    #home-s .homeInfo a img 
+    {
+        width: 25%;
+    }
+    #home-s .homeInfo h1
+    {
+        font-size: 70px;
+        line-height: 70px;
+    }
+    #home-s .homeInfo h1 span 
+    { 
+        font-size: 60px;
+        line-height: 60px;
+    }
+    #home-s .homeInfo p 
+    {
+        font-size: 12px;
+    }
+}
+@media  (max-width: 740px)
+{
+    #home-s
+    {
+        height: 60vh;
+    }
+    #home-s .beginningPhoto
+    {
+        position: absolute;
+        width: 45%;
+        right: 1%;
+    }
+    #home-s .homeInfo a img 
+    {
+        width: 30%;
+    }
+    #home-s .homeInfo h1
+    {
+        margin-top: 50px;
+        font-size: 28px;
+        line-height: 60px;
+    }
+    #home-s .homeInfo h1 span 
+    { 
+        font-size: 30px;
+        line-height: 50px;
+    } 
+}
+
+/* ---  End home page  ---- */ 
+
+/* --  Start download app  -- */ 
+
+#journey-s
+{
+    transform: translateY(50px);
+}
 .journeyDef h1 { font-weight: bold;   }
+
 .journeyDef p {  font-size: 18px;  }
+
 
 .firstJourney .col-md-6 img 
 {
@@ -118,33 +283,192 @@ h1 {  font-weight: bold; }
 
 #downloadNow img 
 {
-    animation-name: swing; /* referring directly to the animation's @keyframe declaration */
-    animation-duration: 1s; /* don't forget to set a duration! */
+    animation-name: swing; 
+    animation-duration: 1s; 
     animation-iteration-count: infinite;
 }
-.firstJourney .row .secondDetails button
+
+/* -- End download app  -- */ 
+
+/*  start about */
+#aboutUs-s
+{
+    transform: translateY(100px);
+}
+#aboutUs-s .card 
+{
+    color: black;
+    background-color: #F2F2F4;
+    min-height: 200px;
+    cursor: pointer;
+    box-shadow: 0 0 0 ;
+    transition: all .5s;
+}
+#aboutUs-s .card:hover
+{
+    box-shadow: 0 0 0  5px;
+}
+
+@media only screen and (max-width: 770px)
+{
+    #aboutUs-s .card 
+    {
+        margin-bottom: 20px;
+    }
+}
+
+/* -- End about  --- */
+
+
+/*--  Start services --*/
+#services-s .bgService:hover
+{
+    box-shadow: 0 0 0px  5px;
+}
+.bgService
+{
+    background-color: #F2F2F4;
+    width: 100%;
+    border: none;
+    min-height: 380px;
+    border-radius: 10%;
+    transition: all .5s;
+}
+.bgService img
+{
+    width: 40%;
+}
+.titleCard
+{
+    font-weight: bold;
+}
+.bgService span
 {
     color: #FFD600;
-    border-color: #FFD600;
-    margin-left: 5px;
 }
-.firstJourney .row .secondDetails button:hover
-{
-    background-color: #FFD600;
-    color: white;
-}
-/*-------------------------------------------------------------*/
 
-/*-------------------------------------------------------------*/
-.footer
+
+@media only screen and (max-width: 770px)
 {
-    background-image: url(../images/Untitled-2png.png);
-    background-size: 100% 100%;
-    height: 100vh;
+    #services-s .col-md-3
+    {
+        margin-bottom: 50px;
+    }
 }
-.footer .footerInfo
+
+/* --  End of services -- */ 
+
+/* --  start Steps  ---- */ 
+
+#steps-s .card-title
 {
-    margin-top: 28%;
-    margin-left: 10%;
+    font-weight: bold;
+}
+
+#steps-s .card
+{
+    min-height: 230px;
+}
+
+/* --  End Steps  ---- */ 
+
+
+
+/*--  Start footer --*/
+
+.footerInfo
+{
+    height: 40vh;
+    background-color: #363636;
+}
+
+
+.logoFooter i
+{
+    font-size:55px;
+    color: white ;
+}
+.logoFooter h1
+{
+    font-size: 55px;
+}
+
+
+.contactsFooter h2
+{
+    font-weight: bold;
+}
+.contactsFooter i
+{
+    color: #FFD600;
+}
+
+.followusFooter .footericon
+{
+    width: 50px;
+    height: 50px;
+    background-color: #FFD600;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all .5s;
+}
+.followusFooter i
+{
+    font-size: 25px;
     color: white;
+}
+.followusFooter h2
+{
+    font-weight: bold;
+}
+.followusFooter .footericon:hover
+{
+    box-shadow: 0 0 0 5px #FFD600;
+    background-color: white;
+}
+.followusFooter .footericon:hover i
+{
+    color: #FFD600;
+}
+
+@media only screen and (max-width: 1000px)
+{
+    .footerInfo
+    {
+        height: 50vh;
+    } 
+
+}
+@media only screen and (max-width: 770px)
+{
+    .footerInfo
+    {
+        height: 90vh;
+    }   
+    
+    #footer-s .col-md-4
+    {
+        margin-top: 35px;
+    }
+}
+
+/* --  End Footer -- */ 
+
+
+#control
+{
+    width: 50px;
+    height: 50px;
+    background-color: #FFD600;
+    cursor: pointer;
+    position: fixed;
+    left: 10px;
+    bottom: 20px;
+    z-index: 1000000;
+}
+#control i 
+{
+    font-size: 25px;
 }
