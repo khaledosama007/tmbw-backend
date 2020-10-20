@@ -62,8 +62,7 @@ exports.register = [
           errors.array()
         );
       } else {
-
-		console.log(process.env.PASSWORD_ENCRYPTION_NUMBER);
+d1e8a70b5ccab1dc2f56bbf7e99f064a660c08e361a35751b9c483c88943d082
         //hash input password
         let simpleCrypto = new SimpleCrypto(
           process.env.PASSWORD_ENCRYPTION_NUMBER
@@ -92,7 +91,6 @@ exports.register = [
         });
       }
     } catch (err) {
-	console.log(err);
       //throw error in json response with status 500.
       return apiResponse.ErrorResponse(res, err);
     }

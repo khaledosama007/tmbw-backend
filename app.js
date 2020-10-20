@@ -12,16 +12,18 @@ var jwt = require("./middlewares/jwt");
 const bodyParser = require("body-parser");
 // DB connection
 var MONGODB_URL = process.env.MONGODB_URL;
+var MONGODB_PROD_URL = process.env.MONGODB_PROD_URL;
+
 var mongoose = require("mongoose");
 mongoose
-  .connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.NODE_ENV ==="test"?MONGODB_URL : MONGODB_PROD_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     //don't show the log when it is test
-    if (process.env.NODE_ENV !== "test") {
-      console.log("Connected to %s", MONGODB_URL);
+    //if (process.env.NODE_ENV !== "test") {
+      console.log("Connected to %s", process.env.NODE_ENV ==="test"?MONGODB_URL : MONGODB_PROD_URL);
       console.log("App is running ... \n");
       console.log("Press CTRL + C to stop the process. \n");
-    }
+   // }
   })
   .catch((err) => {
     console.error("App starting error:", err.message);
