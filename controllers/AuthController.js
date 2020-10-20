@@ -74,6 +74,7 @@ exports.register = [
           name: req.body.name,
           email: req.body.email,
           password: hashedPassword,
+          socialAccount : req.body.socialAccount? req.body.socialAccount : "na"
         });
         user.save(function (err) {
           if (err) {

@@ -6,6 +6,7 @@ var UserSchema = new mongoose.Schema(
     email: { type: String, required: true },
     password: { type: String, required: true },
     isConfirmed: { type: Boolean, required: true, default: 0 },
+    socialAccount : {type : String , required: false , enum :['facebook' , 'google' , "na"]},
     pets: [
       { type: mongoose.Schema.Types.ObjectId, required: false, ref: "Pet" }
     ],
