@@ -68,7 +68,7 @@ typings/
 
 # dotenv environment variables file
 .env
-ecosystem.config.js
+./ecosystem.config.js
 # next.js build output
 .next
 
