@@ -71,6 +71,8 @@ typings/
 /ecosystem.config.js
 ecosystem.config.js	
 
+#temp cache files
+temp/
 # next.js build output
 .next
 
