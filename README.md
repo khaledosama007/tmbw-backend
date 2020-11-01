@@ -36,76 +36,69 @@
 
   <br>
 
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#dart-about-)
 
-  [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#dart-about-)
+## ➤ :dart: About
 
-  ## ➤ :dart: About ##
+API for TMBW mobile app, built using Node.js, MongoDB and Express server, and hosted on Digital Ocean Servers
 
-  API for TMBW mobile app, built using Node.js, MongoDB and Express server, and hosted on Digital Ocean Servers
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#sparkles-features-)
 
+## ➤ :sparkles: Features
 
-  [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#sparkles-features-)
+:heavy_check_mark: Create account\
+ :heavy_check_mark: Add Pet\
+ :heavy_check_mark: Add AD \
+ :heavy_check_mark: Show all current Ads\
+ :heavy_check_mark: Filter Ads\
+ :heavy_check_mark: Contact Ad owner
 
-  ## ➤ :sparkles: Features ##
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#rocket-technologies-)
 
-  :heavy_check_mark: Create account\
-  :heavy_check_mark: Add Pet\
-  :heavy_check_mark: Add AD \
-  :heavy_check_mark: Show all current Ads\
-  :heavy_check_mark: Filter Ads\
-  :heavy_check_mark: Contact Ad owner
+## ➤ :rocket: Technologies
 
+The following tools were used in this project:
 
-  [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#rocket-technologies-)
+- [Expo](https://expo.io/)
+- [Node.js](https://nodejs.org/en/)
+- [React](https://pt-br.reactjs.org/)
+- [React Native](https://reactnative.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
 
-  ## ➤ :rocket: Technologies ##
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#white_check_mark-requirements-)
 
-  The following tools were used in this project:
+## ➤ :white_check_mark: Requirements
 
-  - [Expo](https://expo.io/)
-  - [Node.js](https://nodejs.org/en/)
-  - [React](https://pt-br.reactjs.org/)
-  - [React Native](https://reactnative.dev/)
-  - [TypeScript](https://www.typescriptlang.org/)
+Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
 
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#checkered_flag-starting-)
 
-  [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#white_check_mark-requirements-)
+## ➤ :checkered_flag: Starting
 
-  ## ➤ :white_check_mark: Requirements ##
+```bash
+# ➤ Clone this project
+$ git clone https://github.com/khaledosama007/tmbw-backend
 
-  Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
+# ➤ Access
+$ cd tmbw-backend
 
+# ➤ Install dependencies
+$ npm install
 
-  [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#checkered_flag-starting-)
+# ➤ Run the project
+$ npm start
 
-  ## ➤ :checkered_flag: Starting ##
+# ➤ The server will initialize in the <http://localhost:3000>
+```
 
-  ```bash
-  # ➤ Clone this project
-  $ git clone https://github.com/khaledosama007/tmbw-backend
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#memo-license-)
 
-  # ➤ Access
-  $ cd tmbw-backend
+## ➤ :memo: License
 
-  # ➤ Install dependencies
-  $ npm install
+This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
 
-  # ➤ Run the project
-  $ npm start
+Made with :heart: by <a href="https://github.com/khaledosama007" target="_blank">Khaled Osama</a>
 
-  # ➤ The server will initialize in the <http://localhost:3000>
-  ```
+&#xa0;
 
-
-  [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#memo-license-)
-
-  ## ➤ :memo: License ##
-
-  This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
-
-
-  Made with :heart: by <a href="https://github.com/khaledosama007" target="_blank">Khaled Osama</a>
-
-  &#xa0;
-
-  <a href="#top">Back to top</a>
+<a href="#top">Back to top</a>
